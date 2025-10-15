@@ -59,17 +59,17 @@ function buildAccount(){
         
         console.info(answer['accountName']);
 
-        if (!fs.existsSync('accounts')){
-            fs.mkdirSync('accounts');
+        if (!fs.existsSync('data/accounts')){
+            fs.mkdirSync('data/accounts');
         }
 
-        if (fs.existsSync(`accounts/${accountName}.json`)){
+        if (fs.existsSync(`data/accounts/${accountName}.json`)){
             console.log(chalk.bgRed.black('Esta conta já existe, escolha outro nome!'));
             buildAccount();
             return;
         }
 
-        fs.writeFileSync(`accounts/${accountName}.json`, '{"balance": 0}');
+        fs.writeFileSync(`data/accounts/${accountName}.json`, '{"balance": 0}');
 
         console.log(chalk.green('Parabéns, a sua conta foi criada!'));
         operation();
@@ -114,7 +114,7 @@ function deposit(){
 }
 
 function checkAccount(accountName){
-    if (!fs.existsSync(`accounts/${accountName}.json`)){
+    if (!fs.existsSync(`data/accounts/${accountName}.json`)){
         console.log(chalk.bgRed.black('Esta conta não existe, escolha outro nome!'));
         return false;
     } 
@@ -132,7 +132,7 @@ function addAmount(accountName, amount){
 
     accountData.balance = parseFloat(amount) + parseFloat(accountData.balance);
 
-    fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(accountData));
+    fs.writeFileSync(`data/accounts/${accountName}.json`, JSON.stringify(accountData));
 
     console.log(chalk.green(`Foi depositado o valor de R$${amount} na sua conta!`));
 
@@ -140,7 +140,7 @@ function addAmount(accountName, amount){
 }
 
 function getAccount(accountName){
-    const accountJSON = fs.readFileSync(`accounts/${accountName}.json`, {
+    const accountJSON = fs.readFileSync(`data/accounts/${accountName}.json`, {
         encoding: 'utf8',
         flag: 'r'
     })
@@ -213,7 +213,7 @@ function removeAmount(accountName, amount){
 
     accountData.balance = parseFloat(accountData.balance) - parseFloat(amount);
     
-    fs.writeFileSync(`accounts/${accountName}.json`, JSON.stringify(accountData), (err) => console.log(err));
+    fs.writeFileSync(`data/accounts/${accountName}.json`, JSON.stringify(accountData), (err) => console.log(err));
 
     console.log(chalk.green(`Foi realizado um saque de R$${amount} da sua conta!`));
 
